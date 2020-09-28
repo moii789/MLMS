@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+.MainContainer {
+  background-color: #33ca7f;
+  font-family: "Open Sans", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+}
+
+.container {
+  background-color: #ece4b7;
+  border-radius: 5px;
+  box-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+  width: 450px;
+  height: auto;
+}
+
+h2 {
+  align-content: center;
+  font-size: 40px;
+}
+
+input[type="radio"] {
+  border: 0px;
+  width: 100%;
+  height: 1.2em;
+  margin-top: -1px;
+  vertical-align: middle;
+}
+
+input[type="checkbox"] {
+  border: 0px;
+  width: 100%;
+  height: 1.2em;
+  margin-top: -1px;
+  vertical-align: middle;
+}
+
+.form {
+  font-size: 13px;
+  margin: 10px 20px;
+  padding: 30px 40px;
+}
+
+@media (min-width: 600px) {
+  .form {
+    font-size: 20px;
+  }
+  .container {
+    width: 600px;
+  }
+}
+
+.formControl {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.formControl label {
+  align-items: center;
+  display: block;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+.formControl input {
+  color: black;
+  border: 2px solid #f0f0f0;
+  display: block;
+  border-radius: 4px;
+  width: 100%;
+  padding: 10px;
+  font-size: 11px;
+}
+
+.inline label {
+  display: inline-block;
+  width: 100px;
+}
+
+.inline input {
+  display: inline;
+  width: auto;
+}
+
+.submitButton {
+  border: none;
+  color: black;
+  font-size: 20px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0 #000;
+  height: 50px;
+  width: 100%;
+  background-color: #55ccff;
+}
+
+.grey {
+  background-color: gray;
+}
