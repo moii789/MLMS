@@ -12,7 +12,6 @@ type RegisterPageState = {
 
 type ItemType = {
   itemName: string;
-  itemID: string;
   selected?: boolean;
 };
 

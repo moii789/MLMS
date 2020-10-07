@@ -21,7 +21,9 @@ const Items: React.FC<ItemsProps> = ({
           <h3>Select all items you used:</h3>
           {itemList.map((ele) => {
             console.log(ele);
-            return <Item key={ele.itemID} item={ele} toggleItem={toggleItem} />;
+            return (
+              <Item key={ele.itemName} item={ele} toggleItem={toggleItem} />
+            );
           })}
           <button type="submit" onClick={handleItemSubmit}>
             Submit

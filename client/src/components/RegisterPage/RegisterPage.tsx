@@ -8,7 +8,7 @@ type locationState = {
 };
 
 class RegisterPage extends React.Component<
-  RouteComponentProps<{}, {}, locationState>,
+  RouteComponentProps,
   RegisterPageState
 > {
   state = {
@@ -20,13 +20,6 @@ class RegisterPage extends React.Component<
     DateOfBirth: "",
     agreeToTerms: false,
   };
-
-  componentDidMount() {
-    const id: string = this.props.location.state.id;
-    if (id !== "" && id !== undefined) {
-      this.setState({ VisitorType: "student", StudentID: id });
-    }
-  }
 
   changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     switch (e.target.id) {
@@ -66,8 +59,8 @@ class RegisterPage extends React.Component<
     }
     //use axios to send data to backend
     registerUser(this.state)
-      .then((value) => {
-        console.log(value);
+      .then((res) => {
+        console.log(res);
       })
       .catch((err) => console.log(err));
     //go back to main page

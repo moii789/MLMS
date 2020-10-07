@@ -25,7 +25,13 @@ class LoginPage extends React.Component<{}, LoginPageState> {
 
   componentDidMount() {
     if (this.state.items.length === 0) {
-      getItems((data) => this.setState({ items: data }));
+      getItems((stringItems) => {
+        const items: Array<ItemType> = [];
+        stringItems.forEach((item) => {
+          items.push({ itemName: item, selected: false });
+        });
+        this.setState({ items });
+      });
     }
   }
 
@@ -56,23 +62,25 @@ class LoginPage extends React.Component<{}, LoginPageState> {
   };
 
   handleItemSubmit: HandleItemSubmit = (e: FormEvent<HTMLButtonElement>) => {
-    const toSend: ItemType[] = [];
-    this.state.items.forEach((ele) => {
-      if (ele.selected) {
-        toSend.push(ele);
+    const toSend: string[] = [];
+    this.state.items.forEach((item) => {
+      if (item.selected) {
+        toSend.push(item.itemName);
       }
     });
     submitItems(this.state.id, toSend);
-    this.setState({ id: "", showLogoutComponent: false });
+    const newItems = this.state.items.map((item) => {
+      return { ...item, selected: false };
+    });
+    this.setState({ id: "", showLogoutComponent: false, items: newItems });
   };
 
   //to fix: maybe needs ID to be sent from the backend...
   handleLogin = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     logUser(this.state.id).then((res) => {
-      console.log(this.state.id);
-      if (res && res.data === "logging out") {
-        this.setState({ showLogoutComponent: true });
+      if (res && res.data.message === "logging out") {
+        this.setState({ id: res.data.id, showLogoutComponent: true });
       }
     });
     this.setState({ id: "" });
