@@ -13,11 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from makerlab import views
 from django.contrib import admin
 from django.urls import path,include
-
+from django.conf.urls import url
 
 urlpatterns = [
-    path('', include('makerlab.urls')),
-    path('admin/', admin.site.urls)
+    url(r'^$', views.index, name = 'index'),
+    url(r'^register$', views.register),
+    url(r'^login$', views.login),
+    url(r'^items$', views.save_chosen_items)
 ]

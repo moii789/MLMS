@@ -1,17 +1,17 @@
 import React, { ChangeEvent, FormEvent } from "react";
+import { RouteComponentProps } from "react-router-dom";
 import classes from "./RegisterPage.module.css";
+import { registerUser } from "../../API/api";
 
-type FormState = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  VisitorType: string;
-  StudentID: string;
-  agreeToTerms: boolean;
+type locationState = {
+  id: string;
 };
 
-class RegisterPage extends React.Component<{}, FormState> {
-  state: FormState = {
+class RegisterPage extends React.Component<
+  RouteComponentProps<{}, {}, locationState>,
+  RegisterPageState
+> {
+  state = {
     firstName: "",
     lastName: "",
     email: "",
@@ -19,6 +19,13 @@ class RegisterPage extends React.Component<{}, FormState> {
     StudentID: "",
     agreeToTerms: false,
   };
+
+  componentDidMount() {
+    const id: string = this.props.location.state.id;
+    if (id !== "" && id !== undefined) {
+      this.setState({ VisitorType: "student", StudentID: id });
+    }
+  }
 
   changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     switch (e.target.id) {
@@ -55,7 +62,13 @@ class RegisterPage extends React.Component<{}, FormState> {
       return;
     }
     //use axios to send data to backend
-    console.log(this.state);
+    registerUser(this.state)
+      .then((value) => {
+        console.log(value);
+      })
+      .catch((err) => console.log(err));
+    //go back to main page
+    this.props.history.goBack();
   };
 
   render() {
@@ -74,7 +87,7 @@ class RegisterPage extends React.Component<{}, FormState> {
     return (
       <div className={classes.MainContainer}>
         <div className={classes.container}>
-          <form id="form" className={classes.form}>
+          <form id="form">
             <img alt="logo" src="./assets/logo.svg" />
             <div className={classes.formControl}>
               <label htmlFor="FirstName">First Name:</label>
@@ -116,14 +129,16 @@ class RegisterPage extends React.Component<{}, FormState> {
                 name="VisitorType"
                 value="student"
                 onChange={this.changeHandler}
+                checked={this.state.VisitorType === "student"}
               />
-              <label htmlFor="student">Student:</label>
+              <label htmlFor="student">Student</label>
               <input
                 type="radio"
                 id="visitor"
                 name="VisitorType"
                 value="visitor"
                 onChange={this.changeHandler}
+                checked={this.state.VisitorType === "visitor"}
               />
               <label htmlFor="visitor">Visitor</label>
             </div>
