@@ -1,28 +1,28 @@
 from django.contrib import admin
-from .models import Inventory
-from .models import RegisteredUsers
-from .models import MachinesInUse
+from .models import Item
+from .models import RegisteredUser
+from .models import InUseMachine
 from .models import EntryExit
-from .models import Supervisors
+from .models import Supervisor
 
 # Register your models here.
-class InventoryAdmin(admin.ModelAdmin):
+class ItemAdmin(admin.ModelAdmin):
     list_display= ('item_name', 'quantity')
 
-class RegisteredUsersyAdmin(admin.ModelAdmin):
+class RegisteredUserAdmin(admin.ModelAdmin):
     list_display= ('user_id', 'first_name', 'last_name', 'date_of_birth', 'email','visitor_type','student_id')
 
-class MachinesInUseAdmin(admin.ModelAdmin):
+class InUseMachineAdmin(admin.ModelAdmin):
     list_display= ('user', 'item_id')
 
 class EntryExitAdmin(admin.ModelAdmin):
     list_display= ('user', 'entry_time', 'exit_time')
 
-class SupervisorsAdmin(admin.ModelAdmin):
+class SupervisorAdmin(admin.ModelAdmin):
     list_display= ('user', 'access_level')
 
-admin.site.register(Inventory,InventoryAdmin)
-admin.site.register(RegisteredUsers,RegisteredUsersyAdmin)
-admin.site.register(MachinesInUse,MachinesInUseAdmin)
+admin.site.register(Item,ItemAdmin)
+admin.site.register(RegisteredUser,RegisteredUserAdmin)
+admin.site.register(InUseMachine,InUseMachineAdmin)
 admin.site.register(EntryExit,EntryExitAdmin)
-admin.site.register(Supervisors,SupervisorsAdmin)
+admin.site.register(Supervisor,SupervisorAdmin)

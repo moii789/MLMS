@@ -2,13 +2,16 @@ from django.db import models
 
 # Create your models here.
 
-class Inventory(models.Model):
+
+
+class Item(models.Model):
     item_name = models.CharField(max_length = 250)
     quantity = models.IntegerField()
 
-class RegisteredUsers(models.Model):
+
+class RegisteredUser(models.Model):
     #passed in from frontend
-    user_id = models.IntegerField() #primary key
+    user_id = models.CharField(max_length = 250, unique = True) #primary key
     first_name = models.CharField(max_length = 200)
     last_name = models.CharField(max_length = 200)
     date_of_birth = models.DateField()
@@ -16,18 +19,23 @@ class RegisteredUsers(models.Model):
     visitor_type = models.CharField(max_length = 100)
     student_id = models.IntegerField()
 
-class MachinesInUse(models.Model):
+    def __str__(self):
+        return self.user_id
+
+class InUseMachine(models.Model):
     #passed in from frontend
-    user = models.ForeignKey('RegisteredUsers', on_delete = models.CASCADE) #foreign key of RegisteredUsers table
-    item_id = models.ForeignKey('Inventory', on_delete = models.CASCADE) #foreign key of Inventory table
+    user = models.ForeignKey('RegisteredUser', on_delete = models.CASCADE, to_field = "user_id") #foreign key of RegisteredUsers table
+    item = models.ForeignKey('Item', on_delete = models.CASCADE) #foreign key of Inventory table
 
 class EntryExit(models.Model):
     #passed in from frontend
-    user = models.ForeignKey('RegisteredUsers', on_delete = models.CASCADE) #foreign key of RegisteredUsers table
+    user = models.ForeignKey('RegisteredUser', on_delete = models.CASCADE, to_field = "user_id") #foreign key of RegisteredUsers table
     entry_time = models.DateTimeField()
     exit_time = models.DateTimeField()
 
-class Supervisors(models.Model):
-    user = models.ForeignKey('RegisteredUsers', on_delete = models.CASCADE) #foreign key of RegisteredUsers table
+class Supervisor(models.Model):
+    user = models.ForeignKey('RegisteredUser', on_delete = models.CASCADE, to_field = "user_id") #foreign key of RegisteredUsers table
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
     access_level = models.CharField(max_length = 200)
 
