@@ -10,6 +10,10 @@ import random
 import string
 
 existing_qr_codes = []
+
+for userObj in RegisteredUser.objects.raw('SELECT id,user_id FROM makerlab_registereduser'):
+    existing_qr_codes.append(userObj.user_id)
+
 currently_logged_in_qr_codes = []
 user_entrytime_mapping = {}
 
@@ -18,17 +22,16 @@ user_entrytime_mapping = {}
 def index(request):
     return render(request, 'index.html')
 
-
 @csrf_exempt
 def register(request):
-
+    print(request.body)
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
 
     user_id = make_qr_code()
     first_name = body["firstName"]
     last_name = body["lastName"]
-    date_of_birth = datetime.date(1997, 10, 19)
+    date_of_birth = body["DateOfBirth"]
     email = body["email"]
     visitor_type = body["VisitorType"]
     student_id = -1
@@ -57,7 +60,7 @@ def get_random_string():
 def login(request):
 
     incoming_qr_code = request.GET.get("id")
-
+    print(existing_qr_codes)
     if incoming_qr_code not in existing_qr_codes:
         return JsonResponse({ 'success': False, 'data': 'Nothing', 'message' : 'user not registered'})
 
@@ -68,6 +71,7 @@ def login(request):
             entry_time = datetime.datetime.utcnow()
             user_entrytime_mapping[incoming_qr_code] = entry_time
             currently_logged_in_qr_codes.append(incoming_qr_code)
+            print("entering")
             return JsonResponse({'success': True, 'data': 'Nothing', 'message': 'user logged in'})
 
         else: #exiting makerlab
@@ -78,8 +82,8 @@ def login(request):
             new_entry_exit = EntryExit.objects.create(user = user, entry_time = user_entrytime_mapping[incoming_qr_code], exit_time = exit_time)
             new_entry_exit.save()
             del user_entrytime_mapping[incoming_qr_code]
-
-            return JsonResponse({'success': True, 'data': get_items(), 'message': 'user logging out'})
+            print("exiting")
+            return JsonResponse({'success': True, 'data': 'Nothing', 'message': 'user logging out'})
 
 
 def get_current_user(incoming_qr_code):
@@ -88,15 +92,26 @@ def get_current_user(incoming_qr_code):
             return userObj
     return None
 
-def get_items():
+def grab_items():
     curr_items = []
     for i in Item.objects.raw('SELECT id, item_name FROM makerlab_item'):
         curr_items.append(i.item_name)
     return curr_items
 
 @csrf_exempt
-def save_chosen_items(request):
-    #expecting user_id i.e. qr_code
-    #expecting item_id???
-    #for each item, make a record of qr_code + item_id combo
-    return JsonResponse({'success': True, 'data': '', 'message': 'yoyotesting'})
+def handle_items(request):
+
+    if request.method == 'GET':
+        print(grab_items())
+        return JsonResponse({'success': True, 'data': grab_items(), 'message': 'user logging out'})
+
+    else:
+        print(request)
+        #body_unicode = request.body.decode('utf-8')
+        #body = json.loads(body_unicode)
+
+        #user_id = body["id"]
+        #expecting user_id i.e. qr_code
+        #expecting item_id??? just make item_name the pk
+         #for each item, make a record of qr_code + item_name combo
+        return JsonResponse({'success': True, 'data': 'Nothing', 'message': 'machine records saved'})
