@@ -4,7 +4,9 @@ from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from . models import RegisteredUser, EntryExit, Item, InUseMachine
 from . import functions as functions
-
+import qrcode
+from django.core.mail import EmailMessage
+from email.mime.image import MIMEImage
 import json
 import datetime
 
@@ -39,6 +41,7 @@ def register(request):
 
     new_user = RegisteredUser.objects.create(user_id = user_id, first_name = first_name, last_name = last_name, date_of_birth = date_of_birth, email = email, visitor_type = visitor_type, student_id = student_id )
     new_user.save()
+    functions.send_qr_email(user_id, email)
     return JsonResponse({ 'success': True, 'data': 'Nothing'})
 
 
@@ -93,5 +96,6 @@ def handle_items(request):
             new_in_use_machine = InUseMachine.objects.create(user=user, item = item)
             new_in_use_machine.save()
         return JsonResponse({'success': True, 'data': 'Nothing', 'message': 'machine records saved'})
+
 
 
