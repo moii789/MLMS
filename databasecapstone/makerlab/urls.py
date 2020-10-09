@@ -22,5 +22,5 @@ urlpatterns = [
     url(r'^$', views.index, name = 'index'),
     url(r'^register$', views.register),
     url(r'^login$', views.login),
-    url(r'^items$', views.save_chosen_items)
+    url(r'^items$', views.handle_items)
 ]

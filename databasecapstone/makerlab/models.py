@@ -2,11 +2,12 @@ from django.db import models
 
 # Create your models here.
 
-
-
 class Item(models.Model):
-    item_name = models.CharField(max_length = 250)
+    item_name = models.CharField(max_length = 250, unique = True)
     quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.item_name
 
 
 class RegisteredUser(models.Model):
@@ -25,7 +26,7 @@ class RegisteredUser(models.Model):
 class InUseMachine(models.Model):
     #passed in from frontend
     user = models.ForeignKey('RegisteredUser', on_delete = models.CASCADE, to_field = "user_id") #foreign key of RegisteredUsers table
-    item = models.ForeignKey('Item', on_delete = models.CASCADE) #foreign key of Inventory table
+    item = models.ForeignKey('Item', on_delete = models.CASCADE, to_field = "item_name") #foreign key of Inventory table
 
 class EntryExit(models.Model):
     #passed in from frontend

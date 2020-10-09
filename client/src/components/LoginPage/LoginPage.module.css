@@ -15,7 +15,7 @@
   /* background: -ms-linear-gradient(84deg, #7bcf3f, #51d2cc); */
   /* background: -o-linear-gradient(84deg, #7bcf3f, #51d2cc); */
 
-  background: linear-gradient(-90deg, #89da50, #2cccc4);
+  background: linear-gradient(-90deg, #528b29, #279b95);
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -29,7 +29,7 @@
 }
 
 .container:nth-child(1) {
-  border-right: 1px solid black;
+  /* border-right: 1px solid black; */
 }
 
 form label {

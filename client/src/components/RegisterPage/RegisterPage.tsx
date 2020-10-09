@@ -8,7 +8,7 @@ type locationState = {
 };
 
 class RegisterPage extends React.Component<
-  RouteComponentProps<{}, {}, locationState>,
+  RouteComponentProps,
   RegisterPageState
 > {
   state = {
@@ -17,15 +17,9 @@ class RegisterPage extends React.Component<
     email: "",
     VisitorType: "",
     StudentID: "",
+    DateOfBirth: "",
     agreeToTerms: false,
   };
-
-  componentDidMount() {
-    const id: string = this.props.location.state.id;
-    if (id !== "" && id !== undefined) {
-      this.setState({ VisitorType: "student", StudentID: id });
-    }
-  }
 
   changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     switch (e.target.id) {
@@ -45,8 +39,10 @@ class RegisterPage extends React.Component<
       case "visitor":
         this.setState({ VisitorType: e.target.value });
         break;
+      case "dob":
+        this.setState({ DateOfBirth: e.target.value });
+        break;
       case "agreeToTerms":
-        console.log("hehe");
         this.setState({ agreeToTerms: !this.state.agreeToTerms });
     }
   };
@@ -63,8 +59,8 @@ class RegisterPage extends React.Component<
     }
     //use axios to send data to backend
     registerUser(this.state)
-      .then((value) => {
-        console.log(value);
+      .then((res) => {
+        console.log(res);
       })
       .catch((err) => console.log(err));
     //go back to main page
@@ -77,6 +73,7 @@ class RegisterPage extends React.Component<
       !this.state.agreeToTerms ||
       this.state.firstName.trim() === "" ||
       this.state.lastName.trim() === "" ||
+      this.state.DateOfBirth.trim() === "" ||
       this.state.email.trim() === "" ||
       (this.state.VisitorType === "student" &&
         this.state.StudentID.trim() === "");
@@ -154,6 +151,15 @@ class RegisterPage extends React.Component<
                 />
               </div>
             ) : undefined}
+            <div className={classes.formControl}>
+              <label htmlFor="dob">Date of birth:</label>
+              <input
+                type="date"
+                id="dob"
+                value={this.state.DateOfBirth}
+                onChange={this.changeHandler}
+              />
+            </div>
             <div className={`${classes.formControl} ${classes.inline}`}>
               <input
                 id="agreeToTerms"

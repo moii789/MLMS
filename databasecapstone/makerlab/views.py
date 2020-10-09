@@ -2,33 +2,34 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
-from . models import RegisteredUser, EntryExit, Item
+from . models import RegisteredUser, EntryExit, Item, InUseMachine
+from . import functions as functions
 
 import json
 import datetime
-import random
-import string
 
 existing_qr_codes = []
 currently_logged_in_qr_codes = []
 user_entrytime_mapping = {}
+
+for userObj in RegisteredUser.objects.raw('SELECT id,user_id FROM makerlab_registereduser'):
+    existing_qr_codes.append(userObj.user_id)
 
 # Create your views here.
 
 def index(request):
     return render(request, 'index.html')
 
-
 @csrf_exempt
 def register(request):
-
+    print(request.body)
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
 
-    user_id = make_qr_code()
+    user_id = functions.make_qr_code()
     first_name = body["firstName"]
     last_name = body["lastName"]
-    date_of_birth = datetime.date(1997, 10, 19)
+    date_of_birth = body["DateOfBirth"]
     email = body["email"]
     visitor_type = body["VisitorType"]
     student_id = -1
@@ -40,24 +41,12 @@ def register(request):
     new_user.save()
     return JsonResponse({ 'success': True, 'data': 'Nothing'})
 
-def make_qr_code():
-    qr_code = ""
-    while len(qr_code) == 0 or qr_code in existing_qr_codes:
-        qr_code = get_random_string()
-
-    existing_qr_codes.append(qr_code)
-    return qr_code
-
-def get_random_string():
-    letters = string.ascii_letters
-    str = ''.join(random.choice(letters) for i in range(10))
-    return str
 
 @csrf_exempt
 def login(request):
 
     incoming_qr_code = request.GET.get("id")
-
+    print(existing_qr_codes)
     if incoming_qr_code not in existing_qr_codes:
         return JsonResponse({ 'success': False, 'data': 'Nothing', 'message' : 'user not registered'})
 
@@ -68,35 +57,41 @@ def login(request):
             entry_time = datetime.datetime.utcnow()
             user_entrytime_mapping[incoming_qr_code] = entry_time
             currently_logged_in_qr_codes.append(incoming_qr_code)
+            print("entering")
             return JsonResponse({'success': True, 'data': 'Nothing', 'message': 'user logged in'})
 
         else: #exiting makerlab
 
             exit_time = datetime.datetime.utcnow()
             currently_logged_in_qr_codes.remove(incoming_qr_code)
-            user = get_current_user(incoming_qr_code)
+            user = functions.get_current_user(incoming_qr_code)
             new_entry_exit = EntryExit.objects.create(user = user, entry_time = user_entrytime_mapping[incoming_qr_code], exit_time = exit_time)
             new_entry_exit.save()
             del user_entrytime_mapping[incoming_qr_code]
-
-            return JsonResponse({'success': True, 'data': get_items(), 'message': 'user logging out'})
-
-
-def get_current_user(incoming_qr_code):
-    for userObj in RegisteredUser.objects.raw('SELECT id,user_id FROM makerlab_registereduser'):
-        if userObj.user_id == incoming_qr_code:
-            return userObj
-    return None
-
-def get_items():
-    curr_items = []
-    for i in Item.objects.raw('SELECT id, item_name FROM makerlab_item'):
-        curr_items.append(i.item_name)
-    return curr_items
+            print("exiting")
+            return JsonResponse({'success': True, 'id': incoming_qr_code, 'message': 'logging out'})
 
 @csrf_exempt
-def save_chosen_items(request):
-    #expecting user_id i.e. qr_code
-    #expecting item_id???
-    #for each item, make a record of qr_code + item_id combo
-    return JsonResponse({'success': True, 'data': '', 'message': 'yoyotesting'})
+def handle_items(request):
+    print("going here")
+    if request.method == 'GET':
+        print("going here1")
+        print(functions.grab_items())
+        return JsonResponse({'success': True, 'items': functions.grab_items(), 'message': 'user logging out'})
+
+    else:
+        print("going here2")
+        print(request.body)
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+
+        user = functions.get_current_user(body["id"])
+        items_chosen = body["items"]
+        print(items_chosen)
+        for c_item in items_chosen:
+            item = functions.getItem(c_item)
+            new_in_use_machine = InUseMachine.objects.create(user=user, item = item)
+            new_in_use_machine.save()
+        return JsonResponse({'success': True, 'data': 'Nothing', 'message': 'machine records saved'})
+
+
