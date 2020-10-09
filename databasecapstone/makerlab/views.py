@@ -41,7 +41,7 @@ def register(request):
 
     new_user = RegisteredUser.objects.create(user_id = user_id, first_name = first_name, last_name = last_name, date_of_birth = date_of_birth, email = email, visitor_type = visitor_type, student_id = student_id )
     new_user.save()
-    send_qr_email(user_id, email)
+    functions.send_qr_email(user_id, email)
     return JsonResponse({ 'success': True, 'data': 'Nothing'})
 
 
@@ -98,17 +98,4 @@ def handle_items(request):
         return JsonResponse({'success': True, 'data': 'Nothing', 'message': 'machine records saved'})
 
 
-def send_qr_email(unique_identifier, email_address):
-    """ Enter the chosen unique id to be encoded as unique_identifier and query the members table to get the
-    email address of that record """
-    code = qrcode.make(unique_identifier)
-    code.save('makerlab/temp/temp_code.png', 'PNG')
-    msg: EmailMessage = EmailMessage(subject='Welcome to MakerLab at CELEB',
-                                     body='This is an automated email. The QR code can be used check in/out rapidly '
-                                          'at the Makerlab. Your unique ''identifier is: ' + str(unique_identifier),
-
-                                     from_email='makerlab@beloit.edu', to=[email_address])
-    code = open(r'makerlab/temp/temp_code.png', 'rb')
-    msg.attach(MIMEImage(code.read()))
-    msg.send(fail_silently=False)
 
