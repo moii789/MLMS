@@ -4,10 +4,9 @@ import string
 
 existing_qr_codes = []
 
-
 def get_random_string():
     letters = string.ascii_letters
-    str = ''.join(random.choice(letters) for i in range(10))
+    str = ''.join(random.choice(letters) for i in range(5))
     return str
 
 def make_qr_code():
@@ -35,3 +34,9 @@ def getItem(item_name):
         if item.item_name == item_name:
             return item
     return None
+
+def email_preexist(registering_email):
+    for user in RegisteredUser.objects.raw('SELECT id,email FROM makerlab_registereduser'):
+        if user.email == registering_email:
+            return True
+    return False
