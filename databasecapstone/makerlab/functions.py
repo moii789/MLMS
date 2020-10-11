@@ -40,3 +40,18 @@ def email_preexist(registering_email):
         if user.email == registering_email:
             return True
     return False
+
+def send_qr_email(unique_identifier, email_address):
+    """ Enter the chosen unique id to be encoded as unique_identifier and query the members table to get the
+    email address of that record """
+    code = qrcode.make(unique_identifier)
+    code.save('makerlab/temp/temp_code.png', 'PNG')
+    msg: EmailMessage = EmailMessage(subject='Welcome to MakerLab at CELEB',
+                                     body='This is an automated email. The QR code can be used check in/out rapidly '
+                                          'at the Makerlab. Your unique ''identifier is: ' + str(unique_identifier),
+
+                                     from_email='makerlab@beloit.edu', to=[email_address])
+    code = open(r'makerlab/temp/temp_code.png', 'rb')
+    msg.attach(MIMEImage(code.read()))
+    msg.send(fail_silently=False)
+

@@ -168,3 +168,11 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'makerlab/static')]
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 
+#Settings for Email Configuration
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'makerlab@beloit.edu'
+EMAIL_HOST_PASSWORD = os.environ.get('Email_PASS')
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
