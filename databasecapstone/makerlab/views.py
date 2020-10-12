@@ -3,9 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from . models import RegisteredUser, EntryExit, Item, InUseMachine
 from . import functions as functions
-import qrcode
-from django.core.mail import EmailMessage
-from email.mime.image import MIMEImage
+
 import json
 import datetime
 
