@@ -4,10 +4,9 @@ import string
 
 existing_qr_codes = []
 
-
 def get_random_string():
     letters = string.ascii_letters
-    str = ''.join(random.choice(letters) for i in range(10))
+    str = ''.join(random.choice(letters) for i in range(5))
     return str
 
 def make_qr_code():
@@ -36,6 +35,12 @@ def getItem(item_name):
             return item
     return None
 
+def email_preexist(registering_email):
+    for user in RegisteredUser.objects.raw('SELECT id,email FROM makerlab_registereduser'):
+        if user.email == registering_email:
+            return True
+    return False
+
 def send_qr_email(unique_identifier, email_address):
     """ Enter the chosen unique id to be encoded as unique_identifier and query the members table to get the
     email address of that record """
@@ -49,3 +54,4 @@ def send_qr_email(unique_identifier, email_address):
     code = open(r'makerlab/temp/temp_code.png', 'rb')
     msg.attach(MIMEImage(code.read()))
     msg.send(fail_silently=False)
+
