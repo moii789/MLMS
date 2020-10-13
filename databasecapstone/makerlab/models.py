@@ -6,6 +6,7 @@ class Item(models.Model):
     item_name = models.CharField(max_length = 250, unique = True)
     quantity = models.IntegerField()
     vendor_name = models.ForeignKey('Vendor', on_delete = models.CASCADE, to_field = "vendor_name")
+    warranty = models.IntegerField()
 
 class RegisteredUser(models.Model):
     #passed in from frontend

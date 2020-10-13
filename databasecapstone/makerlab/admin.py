@@ -3,7 +3,7 @@ from .models import Item, RegisteredUser, InUseMachine, EntryExit, Supervisor, V
 
 # Register your models here.
 class ItemAdmin(admin.ModelAdmin):
-    list_display= ('item_name', 'quantity', 'vendor_name')
+    list_display= ('item_name', 'quantity', 'vendor_name', 'warranty')
 
 class RegisteredUserAdmin(admin.ModelAdmin):
     list_display= ('user_id', 'first_name', 'last_name', 'date_of_birth', 'email','visitor_type','student_id')
