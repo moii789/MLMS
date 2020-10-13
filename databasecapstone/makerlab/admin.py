@@ -9,7 +9,7 @@ class RegisteredUserAdmin(admin.ModelAdmin):
     list_display= ('user_id', 'first_name', 'last_name', 'date_of_birth', 'email','visitor_type','student_id')
 
 class InUseMachineAdmin(admin.ModelAdmin):
-    list_display= ('user', 'item_id')
+    list_display= ('user', 'item_id', 'time_used_id')
 
 class EntryExitAdmin(admin.ModelAdmin):
     list_display= ('user', 'entry_time', 'exit_time')
