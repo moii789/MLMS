@@ -6,9 +6,7 @@ class Item(models.Model):
     item_name = models.CharField(max_length = 250, unique = True)
     quantity = models.IntegerField()
     vendor_name = models.ForeignKey('Vendor', on_delete = models.CASCADE, to_field = "vendor_name")
-
-    def __str__(self):
-        return self.item_name
+    warranty = models.IntegerField()
 
 class RegisteredUser(models.Model):
     #passed in from frontend
@@ -26,13 +24,18 @@ class RegisteredUser(models.Model):
 class InUseMachine(models.Model):
     #passed in from frontend
     user = models.ForeignKey('RegisteredUser', on_delete = models.CASCADE, to_field = "user_id") #foreign key of RegisteredUsers table
-    item = models.ForeignKey('Item', on_delete = models.CASCADE, to_field = "item_name") #foreign key of Inventory table
+    item = models.ForeignKey('Item', on_delete = models.CASCADE, to_field = "id") #foreign key of Inventory table
+    time_used_id = models.ForeignKey('EntryExit', on_delete = models.CASCADE, to_field = "id")
+
 
 class EntryExit(models.Model):
     #passed in from frontend
     user = models.ForeignKey('RegisteredUser', on_delete = models.CASCADE, to_field = "user_id") #foreign key of RegisteredUsers table
     entry_time = models.DateTimeField()
     exit_time = models.DateTimeField()
+
+    def __str__(self):
+        return str(self.id)
 
 class Supervisor(models.Model):
     #admin entry

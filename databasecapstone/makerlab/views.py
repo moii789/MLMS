@@ -11,6 +11,8 @@ existing_qr_codes = []
 currently_logged_in_qr_codes = []
 user_entrytime_mapping = {}
 
+
+
 for userObj in RegisteredUser.objects.raw('SELECT id,user_id FROM makerlab_registereduser'):
     existing_qr_codes.append(userObj.user_id)
 
@@ -86,12 +88,21 @@ def handle_items(request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
 
-        user = functions.get_current_user(body["id"])
+        user_id = functions.get_current_user(body["id"])
         items_chosen = body["items"]
+        time_used_id = None
+
+        for entryexitObj in EntryExit.objects.raw('SELECT id,user FROM makerlab_entryexit'):
+            if entryexitObj.user == user_id:
+                time_used_id = entryexitObj.id
+                print(time_used_id)
+
+        entryexitObj = functions.getEntryExit(time_used_id)
+        print(entryexitObj)
 
         for c_item in items_chosen:
             item = functions.getItem(c_item)
-            new_in_use_machine = InUseMachine.objects.create(user=user, item = item)
+            new_in_use_machine = InUseMachine.objects.create(user=user_id, item = item, time_used_id = entryexitObj)
             new_in_use_machine.save()
 
         return JsonResponse({'success': True, 'data': 'Nothing', 'message': 'machine records saved'})

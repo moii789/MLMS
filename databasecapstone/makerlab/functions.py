@@ -38,6 +38,12 @@ def getItem(item_name):
             return item
     return None
 
+def getEntryExit(time_used_id):
+    for entryexit_obj in EntryExit.objects.raw('SELECT id FROM makerlab_entryexit'):
+        if entryexit_obj.id == time_used_id:
+            return entryexit_obj
+    return None
+
 def email_preexist(registering_email):
     for user in RegisteredUser.objects.raw('SELECT id,email FROM makerlab_registereduser'):
         if user.email == registering_email:
