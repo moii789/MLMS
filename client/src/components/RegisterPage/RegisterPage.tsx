@@ -58,11 +58,7 @@ class RegisterPage extends React.Component<
       return;
     }
     //use axios to send data to backend
-    registerUser(this.state)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+    registerUser(this.state);
     //go back to main page
     this.props.history.goBack();
   };
