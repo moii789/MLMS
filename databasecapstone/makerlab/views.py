@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from . models import RegisteredUser, EntryExit, Item, InUseMachine
+from . models import RegisteredUser, EntryExit, Item, InUseItem
 from . import functions as functions
 
 import json
@@ -102,7 +102,7 @@ def handle_items(request):
 
         for c_item in items_chosen:
             item = functions.getItem(c_item)
-            new_in_use_machine = InUseMachine.objects.create(user=user_id, item = item, time_used_id = entryexitObj)
+            new_in_use_machine = InUseItem.objects.create(user=user_id, item = item, time_used_id = entryexitObj)
             new_in_use_machine.save()
 
         return JsonResponse({'success': True, 'data': 'Nothing', 'message': 'machine records saved'})
