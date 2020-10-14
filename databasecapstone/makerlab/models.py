@@ -5,7 +5,7 @@ from django.db import models
 class Item(models.Model):
     item_name = models.CharField(max_length = 250, unique = True)
     quantity = models.IntegerField()
-    vendor_name = models.ForeignKey('Vendor', on_delete = models.CASCADE, to_field = "vendor_name")
+    vendor = models.ForeignKey('Vendor', on_delete = models.CASCADE, to_field = "vendor_name")
     warranty = models.IntegerField()
 
 class RegisteredUser(models.Model):
@@ -21,7 +21,7 @@ class RegisteredUser(models.Model):
     def __str__(self):
         return self.user_id
 
-class InUseMachine(models.Model):
+class InUseItem(models.Model):
     #passed in from frontend
     user = models.ForeignKey('RegisteredUser', on_delete = models.CASCADE, to_field = "user_id") #foreign key of RegisteredUsers table
     item = models.ForeignKey('Item', on_delete = models.CASCADE, to_field = "id") #foreign key of Inventory table
@@ -52,4 +52,4 @@ class Vendor(models.Model):
     zip = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.vendor_name
+        return str(self.id)
