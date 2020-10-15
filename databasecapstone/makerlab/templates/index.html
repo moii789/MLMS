@@ -1,47 +1,50 @@
-
-<!DOCTYPE html>
-
+﻿<!DOCTYPE html>
 {% load static %}
 {% static images as baseUrl %}
 
 <html lang="en">
 <style>
-  body {
-    background-color: #E6E6FA;
+    header {
+        width: 80%;
+        align-items: center;
+    }
+    body {
+        background: url("{% static 'images/LoginPage.jpg' %}") no-repeat;
+        background-size: cover;
     }
 
-form {
-    display: inline;
-    width: 400px;
-   }
+    form {
+        display: inline;
+        width: 400px;
+    }
 
-  input[type=submit] {
-  position: relative;
-  border: none;
-  color: #002266;
-  padding: 25px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 22px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
+    input[type=submit] {
+        position: relative;
+        border: none;
+        color: #002266;
+        padding: 25px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 22px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
 </style>
 <head>
     <meta charset="UTF-8">
     <title>Database Admin Panel</title>
 </head>
+<header>
+    <img src="{% static 'images/logo.svg' %}" alt="MakerLab logo" />
+</header>
 <body>
     <div class="wrapper">
 
-        <img src= "{% static 'images/logo.svg' %}" alt="MakerLab logo">
-
         <form action="/admin">
-        <center><input type="submit" value="CLICK TO GO TO THE DATABASE ADMIN PANEL" /><center>
+            <input type="submit" value="CLICK TO GO TO THE DATABASE ADMIN PANEL" />
         </form>
 
-        <center></center><img src= "{% static 'images/img1.svg' %}" alt="makerlab image" style="width:300px;height:400px;"></div><center>
 
     </div>
 </body>

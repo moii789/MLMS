@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\client",
+    "\\client\\src",
+    "\\client\\src\\components",
+    "\\client\\src\\components\\LoginPage",
+    "\\client\\src\\components\\LoginPage\\QRreader",
+    "\\databasecapstone",
+    "\\databasecapstone\\databasecapstone",
+    "\\databasecapstone\\makerlab",
+    "\\databasecapstone\\makerlab\\templates"
+  ],
+  "SelectedNode": "\\databasecapstone\\makerlab\\templates\\index.html",
+  "PreviewInSolutionExplorer": false
+}
