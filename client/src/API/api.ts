@@ -3,10 +3,13 @@ import axios from "axios";
 import {
   userNotRegistered,
   itemSubmitted,
+  registrationSuccess,
   registrationFailed,
   invalidLogin,
   querySaved,
   querySaveError,
+  queryError,
+  loginError,
 } from "../notifications/notifications";
 
 const baseURL = "http://localhost:8000/";
@@ -18,6 +21,11 @@ export const registerUser = (data: RegisterPageState) => {
   return axios
     .post(baseURL + "register", JSON.stringify(data), {
       headers: { "Access-Control-Allow-Origin": "*" },
+    })
+    .then((res) => {
+      if (res.data.success) {
+        registrationSuccess();
+      }
     })
     .catch((err) => {
       if (err.response.status === 500) {
@@ -74,7 +82,9 @@ export const loginUser = (
   data: UserLoginInfo,
   done: (token: string) => void
 ) => {
-  console.log(JSON.stringify(data));
+  if (data.email.trim() === "" || data.userId.trim() === "") {
+    return loginError();
+  }
   return axios
     .post(baseURL + "token", JSON.stringify(data), {
       headers: { "Access-Control-Allow-Origin": "*" },
@@ -83,6 +93,7 @@ export const loginUser = (
       done(res.data.token);
     })
     .catch((err) => {
+      loginError();
       if (err.response.status === 401) {
         invalidLogin();
       }
@@ -96,9 +107,14 @@ export const getSavedQueries = (token: string) => {
 };
 
 export const getQuery = (token: string, sql: string) => {
-  return axios.get(baseURL + `query?token=${token}&sql=${sql}`, {
-    headers: { "Access-Control-Allow-Origin": "*" },
-  });
+  return axios
+    .get(baseURL + `query?token=${token}&sql=${sql}`, {
+      headers: { "Access-Control-Allow-Origin": "*" },
+    })
+    .catch((err) => {
+      console.log(err);
+      queryError();
+    });
 };
 
 export const saveQuery = (token: string, query: any) => {

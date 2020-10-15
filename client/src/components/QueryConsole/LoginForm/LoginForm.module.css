@@ -2,10 +2,13 @@
   width: 400px;
   text-align: center;
   margin: 70px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 form {
-  margin: 30px;
   text-align: center;
   padding: 20px;
 }
