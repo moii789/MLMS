@@ -40,8 +40,7 @@ class EntryExit(models.Model):
 class Supervisor(models.Model):
     #admin entry
     user = models.ForeignKey('RegisteredUser', on_delete = models.CASCADE, to_field = "user_id") #foreign key of RegisteredUsers table
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
+    email = models.EmailField()
     access_level = models.CharField(max_length = 200)
 
 class Vendor(models.Model):
