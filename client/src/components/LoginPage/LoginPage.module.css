@@ -7,29 +7,46 @@
 }
 
 .MainContainer {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  /* background: -webkit-linear-gradient(84deg, #7bcf3f, #51d2cc) no-repeat; */
-  /* background: -moz-linear-gradient(84deg, #7bcf3f, #51d2cc) no-repeat; */
-  /* background: -ms-linear-gradient(84deg, #7bcf3f, #51d2cc); */
-  /* background: -o-linear-gradient(84deg, #7bcf3f, #51d2cc); */
-
-  background: linear-gradient(-90deg, #528b29, #279b95);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("/LoginPage.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
+h1 {
+    text-align: center;
+    font-size: 65px;
+    color: #ce8972;
+    font-family: Arial, Helvetica, sans-serif;
+}
 .container {
-  height: 100%;
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.minicontainer {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
 }
 
 .container:nth-child(1) {
   /* border-right: 1px solid black; */
+}
+
+.header {
+    width: 70%;
 }
 
 form label {
@@ -40,40 +57,52 @@ form label {
 }
 
 form input {
-  text-align: center;
-  font-size: 30px;
-  width: 300px;
-  height: 70px;
-  border: 5px solid black;
-  border-radius: 10px;
+    color: white;
+    margin-top: 20px;
+    background-color: #EABFB9;
+    font-size: 20px;
+    width: 300px;
+    border: 2px solid white;
+    height: 50px;
+    border-radius: 10px;
+    text-align: center;
 }
 
-form input::-webkit-input-placeholder {
-  font-weight: bold;
-}
+    form input::-webkit-input-placeholder {
+        font-weight: bold;
+        color: grey;
+        text-align: center;
+    }
 
 .formControl {
-  margin: 50px;
-  align-items: center;
-  text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
 }
 
 .button {
-  color: white;
-  background: linear-gradient(50deg, #a88bdd, 80%, #25d158);
-  align-items: center;
-  text-align: center;
-  width: 50%;
-  height: 40px;
-  border: 2px solid black;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: bold;
-  transition: background 5s ease-in;
+    color: white;
+    background-color: #EABFB9;
+    align-items: center;
+    text-align: center;
+    width: 130px;
+    height: 40px;
+    border-color: white;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.buttonLeft {
+    margin-top: 10px;
+}
+
+.buttonRight {
+    margin-top: 10px;
 }
 
 .button:hover {
-  background: linear-gradient(50deg, #a88bdd, #25d158);
+    background-color: #B86B77;
 }
 
 @media (min-height: 1000px) {

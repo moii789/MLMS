@@ -1,4 +1,4 @@
-from . models import RegisteredUser, EntryExit, Item, InUseMachine, Supervisor
+from . models import RegisteredUser, EntryExit, Item, InUseItem, Supervisor
 import random
 import string
 import qrcode

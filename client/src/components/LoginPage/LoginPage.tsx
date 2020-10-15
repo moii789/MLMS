@@ -104,7 +104,11 @@ class LoginPage extends React.Component<{}, LoginPageState> {
           showItemsComponent={this.state.showItemsComponent}
         />
         <div className={classes.MainContainer}>
+          <div className={classes.header}>
+            <img alt="logo" src="./assets/logo.svg" />
+          </div>
           <div className={classes.container}>
+            <QRreader handleScan={this.handleScan.bind(this)} />
             <form>
               <div className={classes.formControl}>
                 <input
@@ -115,31 +119,34 @@ class LoginPage extends React.Component<{}, LoginPageState> {
                   onChange={this.handleIDChange}
                 />
               </div>
-              <div className={classes.formControl}>
-                <button
-                  type="submit"
-                  onClick={this.handleLogin}
-                  className={classes.button}
-                >
-                  Sign In
-                </button>
-              </div>
-              <div className={classes.formControl}>
-                <Link
-                  to={{
-                    pathname: "/register",
-                    state: { id: this.state.id },
-                  }}
-                >
-                  <button type="button" className={classes.button}>
-                    Register
-                  </button>
-                </Link>
+              <div className={classes.minicontainer}>
+                <div className={classes.buttonLeft}>
+                  <div className={classes.formControl}>
+                    <button
+                      type="submit"
+                      onClick={this.handleLogin}
+                      className={classes.button}
+                    >
+                      Scan QR
+                    </button>
+                  </div>
+                </div>
+                <div className={classes.buttonRight}>
+                  <div className={classes.formControl}>
+                    <Link
+                      to={{
+                        pathname: "/register",
+                        state: { id: this.state.id },
+                      }}
+                    >
+                      <button type="button" className={classes.button}>
+                        Register
+                      </button>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </form>
-          </div>
-          <div className={classes.container}>
-            <QRreader handleScan={this.handleScan.bind(this)} />
           </div>
         </div>
       </React.Fragment>
