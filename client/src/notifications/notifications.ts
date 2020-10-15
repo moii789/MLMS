@@ -5,7 +5,6 @@ const animation = {
   animationOut: ["animate__animated", "animate__fadeOut"],
   dismiss: {
     duration: 2500,
-    onScreen: true,
   },
 };
 export const logMessage = (message: string) => {
@@ -48,5 +47,55 @@ export const itemSubmitted = () => {
     insert: "top",
     container: "top-right",
     ...animation,
+  });
+};
+
+export const invalidLogin = () => {
+  store.addNotification({
+    title: "Invalid Login",
+    message: "Username or password is wrong",
+    type: "danger",
+    insert: "top",
+    container: "top-right",
+    ...animation,
+  });
+};
+
+export const copiedToClipboard = () => {
+  store.addNotification({
+    message: "Copied to Clipboard",
+    type: "success",
+    insert: "top",
+    container: "top-right",
+    ...animation,
+    dismiss: {
+      duration: 500,
+    },
+  });
+};
+
+export const querySaved = () => {
+  store.addNotification({
+    message: "Query Saved",
+    type: "success",
+    insert: "top",
+    container: "top-right",
+    ...animation,
+    dismiss: {
+      duration: 500,
+    },
+  });
+};
+
+export const querySaveError = () => {
+  store.addNotification({
+    message: "Query Save Failed",
+    type: "danger",
+    insert: "top",
+    container: "top-right",
+    ...animation,
+    dismiss: {
+      duration: 500,
+    },
   });
 };

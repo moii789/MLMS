@@ -4,6 +4,9 @@ import {
   userNotRegistered,
   itemSubmitted,
   registrationFailed,
+  invalidLogin,
+  querySaved,
+  querySaveError,
 } from "../notifications/notifications";
 
 const baseURL = "http://localhost:8000/";
@@ -65,4 +68,49 @@ export const submitItems = (id: String, items: string[]) => {
     .catch((err) => console.log(err));
   //response status should be 200(OK), but we dont use this so it doesn;t matter
   //will send an array of strings(itemName)
+};
+
+export const loginUser = (
+  data: UserLoginInfo,
+  done: (token: string) => void
+) => {
+  console.log(JSON.stringify(data));
+  return axios
+    .post(baseURL + "token", JSON.stringify(data), {
+      headers: { "Access-Control-Allow-Origin": "*" },
+    })
+    .then((res) => {
+      done(res.data.token);
+    })
+    .catch((err) => {
+      if (err.response.status === 401) {
+        invalidLogin();
+      }
+    });
+};
+
+export const getSavedQueries = (token: string) => {
+  return axios.get(baseURL + `getsavedqueries?token=${token}`, {
+    headers: { "Access-Control-Allow-Origin": "*" },
+  });
+};
+
+export const getQuery = (token: string, sql: string) => {
+  return axios.get(baseURL + `query?token=${token}&sql=${sql}`, {
+    headers: { "Access-Control-Allow-Origin": "*" },
+  });
+};
+
+export const saveQuery = (token: string, query: any) => {
+  axios
+    .post(baseURL + "savequery", JSON.stringify({ token, query }), {
+      headers: { "Access-Control-Allow-Origin": "*" },
+    })
+    .then((res) => {
+      querySaved();
+    })
+    .catch((err) => {
+      querySaveError();
+      console.log(err);
+    });
 };
