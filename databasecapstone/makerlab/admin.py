@@ -15,7 +15,7 @@ class EntryExitAdmin(admin.ModelAdmin):
     list_display= ('user', 'entry_time', 'exit_time')
 
 class SupervisorAdmin(admin.ModelAdmin):
-    list_display= ('user', 'first_name', 'last_name', 'access_level')
+    list_display= ('user', 'email', 'access_level')
 
 class VendorAdmin(admin.ModelAdmin):
     list_display= ('vendor_name', 'city', 'state', 'zip')
