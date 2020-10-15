@@ -53,3 +53,7 @@ class Vendor(models.Model):
 
     def __str__(self):
         return self.vendor_name
+
+class SavedQuery(models.Model):
+    query_name=models.CharField(max_length=200,unique=True)
+    query_sql=models.TextField(unique=True)

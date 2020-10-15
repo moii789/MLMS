@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, RegisteredUser, InUseMachine, EntryExit, Supervisor, Vendor
+from .models import Item, RegisteredUser, InUseMachine, EntryExit, Supervisor, Vendor, SavedQuery
 
 # Register your models here.
 class ItemAdmin(admin.ModelAdmin):
@@ -20,9 +20,13 @@ class SupervisorAdmin(admin.ModelAdmin):
 class VendorAdmin(admin.ModelAdmin):
     list_display= ('vendor_name', 'city', 'state', 'zip')
 
+class SavedQueryAdmin(admin.ModelAdmin):
+    list_display= ('query_name','query_sql')
+
 admin.site.register(Item,ItemAdmin)
 admin.site.register(RegisteredUser,RegisteredUserAdmin)
 admin.site.register(InUseMachine,InUseMachineAdmin)
 admin.site.register(EntryExit,EntryExitAdmin)
 admin.site.register(Supervisor,SupervisorAdmin)
 admin.site.register(Vendor,VendorAdmin)
+admin.site.register(SavedQuery,SavedQueryAdmin)
