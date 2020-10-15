@@ -95,15 +95,15 @@ def handle_items(request):
 
         for entryexitObj in EntryExit.objects.raw('SELECT id,user FROM makerlab_entryexit'):
             if entryexitObj.user == user_id:
-                time_used_id = entryexitObj.id
-                print(time_used_id)
+                entry_exit_id = entryexitObj.id
+                print(entry_exit_id)
 
-        entryexitObj = functions.getEntryExit(time_used_id)
+        entryexitObj = functions.getEntryExit(entry_exit_id)
         print(entryexitObj)
 
         for c_item in items_chosen:
             item = functions.getItem(c_item)
-            new_in_use_machine = InUseItem.objects.create(user=user_id, item = item, time_used_id = entryexitObj)
+            new_in_use_machine = InUseItem.objects.create( item = item, entry_exit_id = entryexitObj)
             new_in_use_machine.save()
 
         return JsonResponse({'success': True, 'data': 'Nothing', 'message': 'machine records saved'})
