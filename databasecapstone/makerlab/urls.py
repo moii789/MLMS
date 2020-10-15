@@ -22,5 +22,9 @@ urlpatterns = [
     url(r'^$', views.index, name = 'index'),
     url(r'^register$', views.register),
     url(r'^login$', views.login),
-    url(r'^items$', views.handle_items)
+    url(r'^items$', views.handle_items),
+    url(r'^token$',views.gettoken),
+    url(r'^getsavedqueries$',views.getsavedqueries),
+    url(r'^query$',views.query),
+    url(r'^savequery',views.savequery)
 ]

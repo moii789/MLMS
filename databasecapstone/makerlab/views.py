@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from . models import RegisteredUser, EntryExit, Item, InUseItem
+from . models import RegisteredUser, EntryExit, Item, InUseItem, SavedQuery
 from . import functions as functions
 
+import jwt
 import json
 import datetime
 
@@ -107,5 +108,39 @@ def handle_items(request):
 
         return JsonResponse({'success': True, 'data': 'Nothing', 'message': 'machine records saved'})
 
+@csrf_exempt
+def gettoken(request):
+    data=json.loads(request.body.decode('utf-8'))
+    token=functions.createToken(data)
+    if token==False:
+        return JsonResponse({},status = 401)
+    return JsonResponse({'token':str(token)})
 
+@csrf_exempt
+def getsavedqueries(request):
+    token=request.GET.get("token")
+    if not functions.validateToken(token):
+        return JsonResponse({},status=401)
+    queries=[]
+    for query in SavedQuery.objects.all():
+        queries.append({'query_name':query.query_name,'query_sql':query.query_sql})
+    return JsonResponse({'queries':queries})
 
+@csrf_exempt
+def query(request):
+    token=request.GET.get("token")
+    if not functions.validateToken(token):
+        return JsonResponse({},status=401)
+    sql=request.GET.get("sql")
+    query_results=functions.completeQuery(sql)
+    return JsonResponse({'result':query_results})
+
+@csrf_exempt
+def savequery(request):
+    data=json.loads(request.body.decode('utf-8'))
+    if not functions.validateToken(data['token']):
+        return JsonResponse({},status=401)
+    data=data['query']
+    new_entry=SavedQuery.objects.create(query_name=data['query_name'],query_sql=data['query_sql'])
+    new_entry.save()
+    return JsonResponse({},status=200)

@@ -1,7 +1,9 @@
-from . models import RegisteredUser, EntryExit, Item, InUseItem
+from . models import RegisteredUser, EntryExit, Item, InUseItem, Supervisor
 import random
 import string
 import qrcode
+import jwt, json
+from django.db import connection
 from django.core.mail import EmailMessage
 from email.mime.image import MIMEImage
 
@@ -65,3 +67,28 @@ def send_qr_email(unique_identifier, email_address):
     msg.attach(MIMEImage(code.read()))
     msg.send(fail_silently=False)
 
+def validateUsernamePass(username,password):
+    print(username)
+    for ursObj in Supervisor.objects.raw('SELECT * FROM makerlab_supervisor'):
+        if ursObj.first_name==username:
+            return True
+    return False
+
+def createToken(data):
+    if validateUsernamePass(data['username'],data['password']):
+        return jwt.encode(data,'secret', algorithm='HS256').decode('utf-8')
+    return False
+
+def validateToken(token):
+    try:
+        data=jwt.decode(token,'secret', algorithm='HS256')
+    except:
+        return False
+    return validateUsernamePass(data['username'],data['password'])
+
+def completeQuery(sql):
+    with connection.cursor() as cursor:
+        cursor.execute(sql)
+        row=cursor.fetchall()
+        columns = [col[0] for col in cursor.description]
+        return ([columns]+row)

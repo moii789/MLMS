@@ -7,6 +7,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: opacity 2s ease-in-out;
+}
+
+.hidden {
+  z-index: -200;
+  transition: all 1s ease-out;
+  opacity: 0;
 }
 
 .container {

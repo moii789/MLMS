@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 import QRreader from "./QRreader/QRreader";
 import Items from "../Items/Items";
 import { logUser, getItems, submitItems } from "../../API/api";
+import { logMessage } from "../../notifications/notifications";
 
 import classes from "./LoginPage.module.css";
 
 interface LoginPageState {
   id: string;
-  showLogoutComponent: boolean;
+  showItemsComponent: boolean;
   items: Array<ItemType>;
 }
 
@@ -18,7 +19,7 @@ class LoginPage extends React.Component<{}, LoginPageState> {
     super(props);
     this.state = {
       id: "",
-      showLogoutComponent: false,
+      showItemsComponent: false,
       items: [],
     };
   }
@@ -62,6 +63,7 @@ class LoginPage extends React.Component<{}, LoginPageState> {
   };
 
   handleItemSubmit: HandleItemSubmit = (e: FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     const toSend: string[] = [];
     this.state.items.forEach((item) => {
       if (item.selected) {
@@ -72,15 +74,21 @@ class LoginPage extends React.Component<{}, LoginPageState> {
     const newItems = this.state.items.map((item) => {
       return { ...item, selected: false };
     });
-    this.setState({ id: "", showLogoutComponent: false, items: newItems });
+    this.setState({ id: "", showItemsComponent: false, items: newItems });
   };
 
   //to fix: maybe needs ID to be sent from the backend...
   handleLogin = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     logUser(this.state.id).then((res) => {
-      if (res && res.data.message === "logging out") {
-        this.setState({ id: res.data.id, showLogoutComponent: true });
+      if (res) {
+        const message = res.data.message;
+        if (message === "logging out") {
+          logMessage("Logging Out");
+          this.setState({ id: res.data.id, showItemsComponent: true });
+        } else if (message === "logged in") {
+          logMessage("ID Logged");
+        }
       }
     });
     this.setState({ id: "" });
@@ -89,19 +97,18 @@ class LoginPage extends React.Component<{}, LoginPageState> {
   render() {
     return (
       <React.Fragment>
-        {this.state.showLogoutComponent ? (
-          <Items
-            itemList={this.state.items}
-            toggleItem={this.toggleItemClick}
-            handleItemSubmit={this.handleItemSubmit}
-          />
-        ) : null}
-            <div className={classes.MainContainer}>
-                <div className={classes.header}>
-                    <img alt="logo" src="./assets/logo.svg" />
-                </div>
-                <div className={classes.container}>
-                    <QRreader handleScan={this.handleScan.bind(this)} />
+        <Items
+          itemList={this.state.items}
+          toggleItem={this.toggleItemClick}
+          handleItemSubmit={this.handleItemSubmit}
+          showItemsComponent={this.state.showItemsComponent}
+        />
+        <div className={classes.MainContainer}>
+          <div className={classes.header}>
+            <img alt="logo" src="./assets/logo.svg" />
+          </div>
+          <div className={classes.container}>
+            <QRreader handleScan={this.handleScan.bind(this)} />
             <form>
               <div className={classes.formControl}>
                 <input
@@ -111,34 +118,34 @@ class LoginPage extends React.Component<{}, LoginPageState> {
                   value={this.state.id}
                   onChange={this.handleIDChange}
                 />
-                        </div>
-                        <div className={classes.minicontainer}>
-                            <div className={classes.buttonLeft}>
-              <div className={classes.formControl}>
-                <button
-                  type="submit"
-                  onClick={this.handleLogin}
-                  className={classes.button}
-                >
-                  Scan QR
-                </button>
-                                </div>
-                            </div>
-                            <div className={classes.buttonRight}>
-              <div className={classes.formControl}>
-                <Link
-                  to={{
-                    pathname: "/register",
-                    state: { id: this.state.id },
-                  }}
-                >
-                  <button type="button" className={classes.button}>
-                    Register
-                  </button>
-                </Link>
-                                </div>
-                            </div>
-                        </div>
+              </div>
+              <div className={classes.minicontainer}>
+                <div className={classes.buttonLeft}>
+                  <div className={classes.formControl}>
+                    <button
+                      type="submit"
+                      onClick={this.handleLogin}
+                      className={classes.button}
+                    >
+                      Scan QR
+                    </button>
+                  </div>
+                </div>
+                <div className={classes.buttonRight}>
+                  <div className={classes.formControl}>
+                    <Link
+                      to={{
+                        pathname: "/register",
+                        state: { id: this.state.id },
+                      }}
+                    >
+                      <button type="button" className={classes.button}>
+                        Register
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </form>
           </div>
         </div>

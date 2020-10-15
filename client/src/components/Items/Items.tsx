@@ -7,20 +7,27 @@ interface ItemsProps {
   itemList: ItemType[];
   toggleItem: ToggleItem;
   handleItemSubmit: HandleItemSubmit;
+  showItemsComponent: boolean;
 }
 
 const Items: React.FC<ItemsProps> = ({
   itemList,
   toggleItem,
   handleItemSubmit,
+  showItemsComponent,
 }) => {
   return (
-    <div className={classes.MainContainer}>
+    <div
+      className={
+        showItemsComponent
+          ? classes.MainContainer
+          : `${classes.MainContainer} ${classes.hidden}`
+      }
+    >
       <div className={classes.container}>
         <form>
           <h3>Select all items you used:</h3>
           {itemList.map((ele) => {
-            console.log(ele);
             return (
               <Item key={ele.itemName} item={ele} toggleItem={toggleItem} />
             );

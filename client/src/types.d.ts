@@ -18,3 +18,13 @@ type ItemType = {
 type ToggleItem = (item: ItemType) => void;
 
 type HandleItemSubmit = (e: FormEvent<HTMLButtonElement>) => void;
+
+type UserLoginInfo = {
+  username: string;
+  password: string;
+};
+
+type Query = {
+  query_name: string;
+  query_sql: string;
+};

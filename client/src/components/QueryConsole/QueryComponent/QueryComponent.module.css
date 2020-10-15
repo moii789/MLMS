@@ -1,0 +1,50 @@
+.container {
+  width: 100%;
+  margin: 50px;
+  padding: 20px auto;
+  text-align: center;
+}
+
+.container input {
+  width: 70%;
+  margin: 10px;
+  height: 22px;
+}
+
+.container p {
+  margin: 20px auto;
+  font-size: 20px;
+}
+
+.container select {
+  width: 100px;
+}
+
+.container button {
+  margin: 10px;
+}
+
+.output {
+  margin: 50px auto;
+  text-align: center;
+}
+
+.output table {
+  margin: auto;
+}
+
+.output table,
+th,
+td {
+  padding: 10px;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.canCopy {
+  color: orange;
+}
+
+.canCopy:hover {
+  cursor: pointer;
+}
