@@ -23,9 +23,8 @@ class RegisteredUser(models.Model):
 
 class InUseItem(models.Model):
     #passed in from frontend
-    user = models.ForeignKey('RegisteredUser', on_delete = models.CASCADE, to_field = "user_id") #foreign key of RegisteredUsers table
     item = models.ForeignKey('Item', on_delete = models.CASCADE, to_field = "id") #foreign key of Inventory table
-    time_used_id = models.ForeignKey('EntryExit', on_delete = models.CASCADE, to_field = "id")
+    entry_exit_id = models.ForeignKey('EntryExit', on_delete = models.CASCADE, to_field = "id")
 
 
 class EntryExit(models.Model):
@@ -40,7 +39,6 @@ class EntryExit(models.Model):
 class Supervisor(models.Model):
     #admin entry
     user = models.ForeignKey('RegisteredUser', on_delete = models.CASCADE, to_field = "user_id") #foreign key of RegisteredUsers table
-    email = models.EmailField()
     access_level = models.CharField(max_length = 200)
 
 class Vendor(models.Model):

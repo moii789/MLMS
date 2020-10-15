@@ -9,13 +9,13 @@ class RegisteredUserAdmin(admin.ModelAdmin):
     list_display= ('user_id', 'first_name', 'last_name', 'date_of_birth', 'email','visitor_type','student_id')
 
 class InUseItemAdmin(admin.ModelAdmin):
-    list_display= ('user', 'item_id', 'time_used_id')
+    list_display= ('item_id', 'entry_exit_id')
 
 class EntryExitAdmin(admin.ModelAdmin):
     list_display= ('user', 'entry_time', 'exit_time')
 
 class SupervisorAdmin(admin.ModelAdmin):
-    list_display= ('user', 'email', 'access_level')
+    list_display= ('user',  'access_level')
 
 class VendorAdmin(admin.ModelAdmin):
     list_display= ('vendor_name', 'city', 'state', 'zip')
