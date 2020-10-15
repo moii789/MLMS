@@ -96,8 +96,12 @@ class LoginPage extends React.Component<{}, LoginPageState> {
             handleItemSubmit={this.handleItemSubmit}
           />
         ) : null}
-        <div className={classes.MainContainer}>
-          <div className={classes.container}>
+            <div className={classes.MainContainer}>
+                <div className={classes.header}>
+                    <img alt="logo" src="./assets/logo.svg" />
+                </div>
+                <div className={classes.container}>
+                    <QRreader handleScan={this.handleScan.bind(this)} />
             <form>
               <div className={classes.formControl}>
                 <input
@@ -107,16 +111,20 @@ class LoginPage extends React.Component<{}, LoginPageState> {
                   value={this.state.id}
                   onChange={this.handleIDChange}
                 />
-              </div>
+                        </div>
+                        <div className={classes.minicontainer}>
+                            <div className={classes.buttonLeft}>
               <div className={classes.formControl}>
                 <button
                   type="submit"
                   onClick={this.handleLogin}
                   className={classes.button}
                 >
-                  Sign In
+                  Scan QR
                 </button>
-              </div>
+                                </div>
+                            </div>
+                            <div className={classes.buttonRight}>
               <div className={classes.formControl}>
                 <Link
                   to={{
@@ -128,11 +136,10 @@ class LoginPage extends React.Component<{}, LoginPageState> {
                     Register
                   </button>
                 </Link>
-              </div>
+                                </div>
+                            </div>
+                        </div>
             </form>
-          </div>
-          <div className={classes.container}>
-            <QRreader handleScan={this.handleScan.bind(this)} />
           </div>
         </div>
       </React.Fragment>

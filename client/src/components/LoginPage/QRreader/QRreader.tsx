@@ -12,7 +12,7 @@ const QRreaderComponent: React.FC<QRreaderComponent> = (props) => {
       delay={500}
       onError={(err) => alert(err)}
       onScan={props.handleScan}
-      style={{ width: "450px" }}
+      style={{ width: "300px" }}
     />
   );
 };

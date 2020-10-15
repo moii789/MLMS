@@ -87,7 +87,7 @@ class RegisterPage extends React.Component<
           <form id="form">
             <img alt="logo" src="./assets/logo.svg" />
             <div className={classes.formControl}>
-              <label htmlFor="FirstName">First Name:</label>
+                        <label htmlFor="FirstName">First Name:</label>
               <input
                 type="text"
                 id="FirstName"
@@ -106,6 +106,7 @@ class RegisterPage extends React.Component<
                 onChange={this.changeHandler}
               />
             </div>
+
             <div className={classes.formControl}>
               <label htmlFor="Email">Email:</label>
               <input
@@ -116,41 +117,7 @@ class RegisterPage extends React.Component<
                 onChange={this.changeHandler}
               />
             </div>
-            <div
-              className={`${classes.formControl} ${classes.inline}`}
-              style={{ marginLeft: "" }}
-            >
-              <input
-                type="radio"
-                id="student"
-                name="VisitorType"
-                value="student"
-                onChange={this.changeHandler}
-                checked={this.state.VisitorType === "student"}
-              />
-              <label htmlFor="student">Student</label>
-              <input
-                type="radio"
-                id="visitor"
-                name="VisitorType"
-                value="visitor"
-                onChange={this.changeHandler}
-                checked={this.state.VisitorType === "visitor"}
-              />
-              <label htmlFor="visitor">Visitor</label>
-            </div>
-            {this.state.VisitorType === "student" ? (
-              <div className={classes.formControl}>
-                <label htmlFor="studentID">StudentID:</label>
-                <input
-                  type="text"
-                  id="studentID"
-                  placeholder="Enter StudentID:"
-                  value={this.state.StudentID}
-                  onChange={this.changeHandler}
-                />
-              </div>
-            ) : undefined}
+            
             <div className={classes.formControl}>
               <label htmlFor="dob">Date of birth:</label>
               <input
@@ -159,8 +126,45 @@ class RegisterPage extends React.Component<
                 value={this.state.DateOfBirth}
                 onChange={this.changeHandler}
               />
-            </div>
-            <div className={`${classes.formControl} ${classes.inline}`}>
+                    </div>
+
+                    <div
+                        className={`${classes.formControl} ${classes.inline}`}
+                        style={{ marginLeft: "" }}
+                    >
+                        <input
+                            type="radio"
+                            id="student"
+                            name="VisitorType"
+                            value="student"
+                            onChange={this.changeHandler}
+                            checked={this.state.VisitorType === "student"}
+                        />
+                        <label htmlFor="student" style={{ marginRight:"70px"}}>Student</label>
+                        <input
+                            type="radio"
+                            id="visitor"
+                            name="VisitorType"
+                            value="visitor"
+                            onChange={this.changeHandler}
+                            checked={this.state.VisitorType === "visitor"}
+                        />
+                        <label htmlFor="visitor" style={{ marginLeft: '-10px' }}>Visitor</label>
+                    </div>
+                    {this.state.VisitorType === "student" ? (
+                        <div className={classes.formControl}>
+                            <label htmlFor="studentID">StudentID:</label>
+                            <input
+                                type="text"
+                                id="studentID"
+                                placeholder="Enter StudentID:"
+                                value={this.state.StudentID}
+                                onChange={this.changeHandler}
+                            />
+                        </div>
+                    ) : undefined}
+
+                    <div className={`${classes.formControl} ${classes.inline} ${classes.reduceMargin}`}>
               <input
                 id="agreeToTerms"
                 type="checkbox"
@@ -168,7 +172,7 @@ class RegisterPage extends React.Component<
                 checked={this.state.agreeToTerms}
                 onChange={this.changeHandler}
               />
-              I agree to the MakerLab terms and Services.
+               &nbsp; I agree to the MakerLab terms and Services.
             </div>
             <div className={classes.formControl}>
               <button
