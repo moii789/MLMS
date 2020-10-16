@@ -42,6 +42,7 @@ export const logUser = (id: String) => {
       headers: { "Access-Control-Allow-Origin": "*" },
     })
     .catch((err) => {
+      if (!err) return;
       console.log(err.response);
       if (err.response.data.message === "user not registered") {
         userNotRegistered();

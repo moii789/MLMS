@@ -40,9 +40,10 @@ class LoginPage extends React.Component<{}, LoginPageState> {
     this.setState({ id: e.target.value });
   };
 
-  handleScan = (data: string | null) => {
+  handleScan = async (data: string | null) => {
     if (data !== null) {
-      this.setState({ id: data });
+      await this.setState({ id: data });
+      this.handleLogin();
     }
   };
 
@@ -77,8 +78,8 @@ class LoginPage extends React.Component<{}, LoginPageState> {
   };
 
   //to fix: maybe needs ID to be sent from the backend...
-  handleLogin = (e: FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  handleLogin = (e: FormEvent<HTMLButtonElement> | void) => {
+    if (e) e.preventDefault();
     logUser(this.state.id).then((res) => {
       if (res) {
         const message = res.data.message;
