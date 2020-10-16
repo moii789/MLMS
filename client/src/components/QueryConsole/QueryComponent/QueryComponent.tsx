@@ -84,7 +84,7 @@ const QueryComponent: React.FC<QueryComponentProps> = ({ token }) => {
         </span>
         , Used Machines:{" "}
         <span className={classes.canCopy} onClick={handleSpanCopy}>
-          makerlab_inusemachine
+          makerlab_inuseitem
         </span>
         , Supervisors:{" "}
         <span className={classes.canCopy} onClick={handleSpanCopy}>
