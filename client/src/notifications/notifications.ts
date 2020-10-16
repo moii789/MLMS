@@ -39,6 +39,17 @@ export const registrationFailed = () => {
   });
 };
 
+export const registrationSuccess = () => {
+  store.addNotification({
+    title: "Registration Successful",
+    message: "Please check your email for QR code",
+    type: "success",
+    insert: "top",
+    container: "top-right",
+    ...animation,
+  });
+};
+
 export const itemSubmitted = () => {
   store.addNotification({
     title: "Items Submitted",
@@ -90,6 +101,33 @@ export const querySaved = () => {
 export const querySaveError = () => {
   store.addNotification({
     message: "Query Save Failed",
+    type: "danger",
+    insert: "top",
+    container: "top-right",
+    ...animation,
+    dismiss: {
+      duration: 500,
+    },
+  });
+};
+
+export const loginError = () => {
+  store.addNotification({
+    message: "Login Error",
+    type: "danger",
+    insert: "top",
+    container: "top-right",
+    ...animation,
+    dismiss: {
+      duration: 500,
+    },
+  });
+};
+
+export const queryError = () => {
+  store.addNotification({
+    title: "Bad SQL",
+    message: "Please Check your query",
     type: "danger",
     insert: "top",
     container: "top-right",

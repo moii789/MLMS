@@ -41,7 +41,6 @@ class LoginPage extends React.Component<{}, LoginPageState> {
   };
 
   handleScan = (data: string | null) => {
-    console.log(data);
     if (data !== null) {
       this.setState({ id: data });
     }
@@ -112,7 +111,7 @@ class LoginPage extends React.Component<{}, LoginPageState> {
             <form>
               <div className={classes.formControl}>
                 <input
-                  type="text"
+                  type="password"
                   id="id"
                   placeholder="ID"
                   value={this.state.id}

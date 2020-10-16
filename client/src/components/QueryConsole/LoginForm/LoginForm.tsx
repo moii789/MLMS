@@ -1,5 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 
+import QRreader from "../../LoginPage/QRreader/QRreader";
+
 import classes from "./LoginForm.module.css";
 
 interface LoginFormProps {
@@ -7,22 +9,28 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ handleLogin }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState("");
 
-  const onUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+  const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
-  const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+  const onUserIdChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserId(e.target.value);
   };
 
   const loginHandler = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    handleLogin({ username, password });
-    setUsername("");
-    setPassword("");
+    handleLogin({ email, userId });
+    setEmail("");
+    setUserId("");
+  };
+
+  const handleScan = (data: string | null) => {
+    if (data !== null) {
+      setUserId(data);
+    }
   };
 
   return (
@@ -30,20 +38,21 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLogin }) => {
       <form>
         <input
           type="text"
-          value={username}
-          onChange={onUsernameChange}
-          placeholder="username"
+          value={email}
+          onChange={onEmailChange}
+          placeholder="Email"
         />
         <input
           type="password"
-          value={password}
-          onChange={onPasswordChange}
-          placeholder="password"
+          value={userId}
+          onChange={onUserIdChange}
+          placeholder="UserID"
         />
         <button type="submit" value="Login" onClick={loginHandler}>
           Login
         </button>
       </form>
+      <QRreader handleScan={handleScan} />
     </div>
   );
 };

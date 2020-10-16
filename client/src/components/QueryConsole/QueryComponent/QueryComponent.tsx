@@ -28,7 +28,7 @@ const QueryComponent: React.FC<QueryComponentProps> = ({ token }) => {
 
   const querySubmitHandler = (e: MouseEvent<HTMLButtonElement>) => {
     getQuery(token, query).then((res) => {
-      console.log(res.data);
+      if (res == null) return;
       setOutput(res.data.result);
     });
   };
@@ -44,7 +44,6 @@ const QueryComponent: React.FC<QueryComponentProps> = ({ token }) => {
   useEffect(() => {
     if (savedQueries.length > 0) return;
     getSavedQueries(token).then((res) => {
-      console.log(res.data.queries);
       setSavedQueries(res.data.queries);
     });
     // eslint-disable-next-line
@@ -60,6 +59,8 @@ const QueryComponent: React.FC<QueryComponentProps> = ({ token }) => {
       return setShowNameInput(true);
     }
     saveQuery(token, { query_name: queryName, query_sql: query });
+    setQueryName("");
+    setShowNameInput(false);
     getSavedQueries(token).then((res) => {
       setSavedQueries(res.data.queries);
     });
@@ -85,12 +86,20 @@ const QueryComponent: React.FC<QueryComponentProps> = ({ token }) => {
         <span className={classes.canCopy} onClick={handleSpanCopy}>
           makerlab_inusemachine
         </span>
+        , Supervisors:{" "}
+        <span className={classes.canCopy} onClick={handleSpanCopy}>
+          makerlab_supervisor
+        </span>
       </p>
       {savedQueries.length > 0 ? (
         <select name="queries" id="queries" onChange={savedQueryHandler}>
           <option value="">None</option>
           {savedQueries.map((ele) => {
-            return <option value={ele.query_sql}>{ele.query_name}</option>;
+            return (
+              <option key={ele.query_name} value={ele.query_sql}>
+                {ele.query_name}
+              </option>
+            );
           })}
         </select>
       ) : null}
@@ -117,16 +126,16 @@ const QueryComponent: React.FC<QueryComponentProps> = ({ token }) => {
             <thead>
               <tr>
                 {output[0].map((colName: any) => {
-                  return <th>{colName}</th>;
+                  return <th key={colName}>{colName}</th>;
                 })}
               </tr>
             </thead>
             <tbody>
-              {output.slice(1).map((row: Array<any>) => {
+              {output.slice(1).map((row: Array<any>, index) => {
                 return (
-                  <tr>
-                    {row.map((ele: any) => {
-                      return <td>{ele}</td>;
+                  <tr key={row[0] + index}>
+                    {row.map((ele: any, sIndex) => {
+                      return <td key={row[0] + sIndex}>{ele}</td>;
                     })}
                   </tr>
                 );

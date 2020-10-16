@@ -67,15 +67,16 @@ def send_qr_email(unique_identifier, email_address):
     msg.attach(MIMEImage(code.read()))
     msg.send(fail_silently=False)
 
-def validateUsernamePass(username,password):
-    print(username)
-    for ursObj in Supervisor.objects.raw('SELECT * FROM makerlab_supervisor'):
-        if ursObj.first_name==username:
-            return True
+def validateUsernamePass(email,userId):
+    with connection.cursor() as cursor:
+        cursor.execute('SELECT email,access_level FROM makerlab_supervisor ms inner join makerlab_registereduser mu on ms.user_id=mu.user_id')
+        for entry in cursor.fetchall():
+            if entry[0]==email and entry[1]=='database':
+                return True
     return False
 
 def createToken(data):
-    if validateUsernamePass(data['username'],data['password']):
+    if validateUsernamePass(data['email'],data['userId']):
         return jwt.encode(data,'secret', algorithm='HS256').decode('utf-8')
     return False
 
@@ -84,7 +85,7 @@ def validateToken(token):
         data=jwt.decode(token,'secret', algorithm='HS256')
     except:
         return False
-    return validateUsernamePass(data['username'],data['password'])
+    return validateUsernamePass(data['email'],data['userId'])
 
 def completeQuery(sql):
     with connection.cursor() as cursor:

@@ -20,8 +20,8 @@ type ToggleItem = (item: ItemType) => void;
 type HandleItemSubmit = (e: FormEvent<HTMLButtonElement>) => void;
 
 type UserLoginInfo = {
-  username: string;
-  password: string;
+  email: string;
+  userId: string;
 };
 
 type Query = {
