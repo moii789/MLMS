@@ -23,14 +23,10 @@ export const registerUser = (data: RegisterPageState) => {
       headers: { "Access-Control-Allow-Origin": "*" },
     })
     .then((res) => {
-      if (res.data.success) {
-        registrationSuccess();
-      }
+      setTimeout(() => registrationSuccess(), 3000);
     })
     .catch((err) => {
-      if (err.response.status === 500) {
-        registrationFailed();
-      }
+      setTimeout(() => registrationFailed(), 3000);
     });
   //needs to return status of 201(created) or
   //400(bad request) //JSON Data doesnt matter

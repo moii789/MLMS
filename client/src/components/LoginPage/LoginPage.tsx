@@ -42,8 +42,7 @@ class LoginPage extends React.Component<{}, LoginPageState> {
 
   handleScan = async (data: string | null) => {
     if (data !== null) {
-      await this.setState({ id: data });
-      this.handleLogin();
+      this.setState({ id: data });
     }
   };
 
