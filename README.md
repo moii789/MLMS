@@ -2,13 +2,15 @@
 
 ## Developer
 
-using npm as a package manager, please install node to get npm package manager.
+We are using npm as a package manager, please install node to get npm.
+
+After you clone the code in your machine:
 
 ##### Running the frontend:
 
 ```
 cd client
-npm i #install all dependencies
+npm i #install dependencies
 npm start #starts the react app in dev mode
 ```
 
@@ -16,17 +18,23 @@ Before you run the server, you need to edit the databasecapstone/settings.py/ fi
 
 ##### Running the server
 
+In another terminal:
 ```
 cd databasecapstone
-python3 manage.py migrate
+pip install requirements.txt #install dependencies
+python3 manage.py migrate #create databases
 python3 manage.py runserver #runs the server
 ```
-
+###### linux kernel requirements:
+```
+#if an error occurs during the previous bit of installation run:
+sudo apt install python3-dev libpq-dev
+```
 ##### Remember to setup environment variables for the email smtp server
 
 #
 
-## Creating SuperUser
+## Creating SuperUser :
 
 ```
 python manage.py createsuperuser
